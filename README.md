@@ -137,20 +137,20 @@
 
     }
     
-   restart the application and test using user role credentails as blah/blah 
-   we get the forbidden 403 error we need to logout and try to login by admin credentails but we not have logout option try the following url as http://localhost:8080/logout it ask prompt and say logout and try admin credentials.
-   
-   Change the following method to add a logic for different apis able to login by autherization 
-   
-   @Override
-    public void configure(HttpSecurity http) throws Exception {
-       http.authorizeRequests()
-               .antMatchers("/admin").hasAnyRole("ADMIN")
-               .antMatchers("/user").hasAnyRole("USER","ADMIN")
-               .antMatchers("/").permitAll()
-               .and().formLogin();
+       restart the application and test using user role credentails as blah/blah 
+       we get the forbidden 403 error we need to logout and try to login by admin credentails but we not have logout option try the            following url as http://localhost:8080/logout it ask prompt and say logout and try admin credentials.
 
-    }
+       Change the following method to add a logic for different apis able to login by autherization 
+   
+       @Override
+        public void configure(HttpSecurity http) throws Exception {
+           http.authorizeRequests()
+                   .antMatchers("/admin").hasAnyRole("ADMIN")
+                   .antMatchers("/user").hasAnyRole("USER","ADMIN")
+                   .antMatchers("/").permitAll()
+                   .and().formLogin();
+
+        }
     
     Test these by using 
       login :- blah / blah as a user  by using http://localhost:8080/login
