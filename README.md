@@ -107,8 +107,64 @@
       }
     }
     
+  # Autherization 
+        Add the followinig methods into response class
+             /**
+             * this is able to access by only admin
+             * @return
+             */
+            @GetMapping("/admin")
+            public String admin(){
+                return ("<h1>Welcome Admin</h1>");
+            }
+
+            /**
+             * this is able to access by admin and user
+             * @return
+             */
+            @GetMapping("/user")
+            public String user(){
+                return ("<h1>Welcome User</h1>");
+            }
     
+    
+        Add the following method in SecurityConfiguration class
+        @Override
+    public void configure(HttpSecurity http) throws Exception {
+       http.authorizeRequests()
+               .antMatchers("/**").hasAnyRole("ADMIN")
+               .and().formLogin();
+
+    }
+    
+   restart the application and test using user role credentails as blah/blah 
+   we get the forbidden 403 error we need to logout and try to login by admin credentails but we not have logout option try the following url as http://localhost:8080/logout it ask prompt and say logout and try admin credentials.
+   
+   Change the following method to add a logic for different apis able to login by autherization 
+   
+   @Override
+    public void configure(HttpSecurity http) throws Exception {
+       http.authorizeRequests()
+               .antMatchers("/admin").hasAnyRole("ADMIN")
+               .antMatchers("/user").hasAnyRole("USER","ADMIN")
+               .antMatchers("/").permitAll()
+               .and().formLogin();
+
+    }
+    
+    Test these by using 
+      login :- blah / blah as a user  by using http://localhost:8080/login
+         access http://localhost:8080/user -- sucess 
+                http://localhost:8080 -- success
+                http://localhost:8080/admin -- failed with 403 error 
+                
+       logout :- http://localhost:8080/logout and login as admin by foo/foo 
+       access :- http://localhost:8080/user -- success
+                 http://localhost:8080 -- success
+                 http://localhost:8080/admin -- success 
       
+    
+    
       
 
   
